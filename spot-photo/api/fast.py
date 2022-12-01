@@ -23,3 +23,9 @@ app.add_middleware(
 # Then to store the model in an `app.state.model` global variable accessible across all routes!
 # This will prove very useful for demo days
 app.state.model = #load_model()
+
+@app.get('#Function')
+#def function similarity ...
+#return show images
+
+@app.get('/')
