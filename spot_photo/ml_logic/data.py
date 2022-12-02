@@ -39,13 +39,21 @@ def encode_X_pred(model, corpus_X_pred):
 def load_data(bucket_name = 'bucket_image_flickr30k',
                 file_name = 'flickr30k_captions.csv'):
 
+
+
+
     credentials = service_account.Credentials.from_service_account_file(
     'possible-aspect-369317-239ac2560a56.json')
 
     client = storage.Client(credentials=credentials)
     #client = storage.Client('possible-aspect-369317')
     bucket = client.get_bucket(bucket_name)
+    if file_name != 'flickr30k_captions.csv' :
+        blob = bucket.get_blob(file_name)
+        return blob
+
     blob = bucket.blob(file_name)
+
 
     blob.download_to_filename(file_name)
     #Sinon je le ramène en local download
@@ -54,7 +62,7 @@ def load_data(bucket_name = 'bucket_image_flickr30k',
 
     data = pd.read_csv(file_name, on_bad_lines='skip', delimiter='|')
     print(data['image_name'][55])
-
+    return data
 
 
 # DEF A FUNCTION TO LOAD OUR DATASET **

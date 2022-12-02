@@ -1,12 +1,16 @@
 import matplotlib.pyplot as plt
 from PIL import Image
 from io import BytesIO
+from ml_logic.data import load_data
 
 def show_results(list_of_image_name):
     # Create list of blobs
+
+
     blob_l =[]
     for image in list_of_image_name :
-        blob_l.append(bucket.get_blob(f"flickr30k_images/{image}"))
+        blob_l.append(load_data(bucket_name = 'bucket_image_flickr30k',
+                file_name = f"flickr30k_images/{image}"))
     for blob in blob_l:
         img = Image.open(BytesIO(blob.download_as_bytes()))
 

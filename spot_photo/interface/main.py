@@ -19,4 +19,4 @@ query_embedding = embedding_query(model, query='A girl playing in a grass')
 list_of_image_name = compute_similarity(query_embedding, X_pred_embeddings, k=5)
 print(list_of_image_name)
 
-#show_results(list_of_image_name)
+show_results(list_of_image_name)
