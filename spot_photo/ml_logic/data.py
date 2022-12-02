@@ -52,8 +52,9 @@ def load_data(bucket_name = 'bucket_image_flickr30k',
 
     #url = f'gs://{bucket_name}/{file_name}'
 
-    data = pd.read_csv(file_name, header=None)
+    data = pd.read_csv(file_name, on_bad_lines='skip', delimiter='|')
+    print(data['image_name'][55])
 
-    return data
+
 
 # DEF A FUNCTION TO LOAD OUR DATASET **

@@ -1,3 +1,4 @@
+
 from sentence_transformers import SentenceTransformer, util
 from ml_logic.data import load_data
 from PIL import Image
@@ -39,12 +40,15 @@ def compute_similarity(query_embedding, X_pred_embeddings, k=5):
     list_of_index = []
     for hit in hits_sorted :
         list_of_index.append(hit['corpus_id'])
-
-    data = load_data
+    print (list_of_index)
+    data = load_data()
     # Create list of images name
     list_of_image_name = []
     for i in list_of_index :
-        list_of_image_name.append(data['image_name'][i])
+        print(data['image_name'][55])
+        image_na = data['image_name'][i]
+        print(image_na)
+        list_of_image_name.append(image_na)
 
     return list_of_image_name
 
