@@ -1,7 +1,6 @@
 from PIL import Image
 from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor, AutoTokenizer
 from sentence_transformers import SentenceTransformer, util
-
 import torch
 
 
@@ -21,17 +20,20 @@ def load_captionning_model():
 #return X_pred_embeddings
 
 # DEF A FUNCTION TO LOAD SENTENCE SIMILARITY MODEL
-def load_sentence_similarity_model():
+def load_sentence_similarity_model(model_name):
     # Instanciate Model
-    model = SentenceTransformer('all-mpnet-base-v2')
+    if model_name == 'all-mpnet-base-v2':
+        model = SentenceTransformer('all-mpnet-base-v2')
+    if model_name == 'clip-ViT-B-32':
+        model = SentenceTransformer('clip-ViT-B-32')
     return model
 
-def embedding_query (query):
+def embedding_query(model, query):
     # Embedding query
     query_embedding = model.encode(query)
     return query_embedding
 
-def compute_similarity(query_embedding):
+def compute_similarity(query_embedding, X_pred_embeddings):
     hits = util.semantic_search(query_embedding, X_pred_embeddings, top_k=5)
     hits_sorted = sorted(hits[0], key = lambda ele: ele['score'], reverse=True)
 
