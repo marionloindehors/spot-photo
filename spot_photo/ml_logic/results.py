@@ -5,8 +5,6 @@ from ml_logic.data import load_data
 
 def show_results(list_of_image_name):
     # Create list of blobs
-
-
     blob_l =[]
     for image in list_of_image_name :
         blob_l.append(load_data(bucket_name = 'bucket_image_flickr30k',
@@ -19,5 +17,5 @@ def show_results(list_of_image_name):
     for  x in range(rows):
         blob_n = blob_l[x]
         img = Image.open(BytesIO(blob_n.download_as_bytes()))
-        display(img)
+        img.show(img)
         print(f"Résultat n°{x+1}")
