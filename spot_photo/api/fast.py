@@ -42,7 +42,7 @@ def root():
 
 
 @app.get('/recherche')
-def recherche(query, k):
+def recherche(query: str, k: int):
     model = app.state.model
     query_embedding = embedding_query(model, query)
     images_names = compute_similarity(query_embedding, app.state.X_pred_embeddings, k=k)
