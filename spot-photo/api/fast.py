@@ -24,8 +24,16 @@ app.add_middleware(
 # This will prove very useful for demo days
 app.state.model = #load_model()
 
-@app.get('#Function')
-#def function similarity ...
-#return show images
 
 @app.get('/')
+def root():
+    return {'greeting': 'Hello',
+            'pour faire une recherche': 'tapez : /recherche',
+            'avec en param': 'la description de la photo que vous recherchez'}
+
+
+
+@app.get('/recherche')
+def recherche(query : object):
+
+#return show images

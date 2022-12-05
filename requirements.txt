@@ -9,6 +9,8 @@ numpy
 pandas
 scikit-learn
 
+transformers
+
 # tests/linter
 black
 coverage
@@ -21,6 +23,13 @@ gcsfs
 google-cloud-storage
 mlflow
 s3fs
+
+fastapi         # API framework
+pytz            # time zone management
+uvicorn         # web server
+
+# tests
+httpx           # HTTP client
 
 # utilities
 six>=1.14
