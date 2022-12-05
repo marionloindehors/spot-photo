@@ -8,7 +8,7 @@ def load_X_pred(bucket_name = 'bucket_image_flickr30k',
                 file_name = 'X_pred_caption_0_to_1000.csv'):
 
     credentials = service_account.Credentials.from_service_account_file(
-    'possible-aspect-369317-239ac2560a56.json')
+    'possible-aspect-369317-b19475afaf02.json')
 
     client = storage.Client(credentials=credentials)
     #client = storage.Client('possible-aspect-369317')
@@ -40,10 +40,11 @@ def load_data(bucket_name = 'bucket_image_flickr30k',
                 file_name = 'flickr30k_captions.csv'):
 
     credentials = service_account.Credentials.from_service_account_file(
-    'possible-aspect-369317-239ac2560a56.json')
+    'possible-aspect-369317-b19475afaf02.json')
 
     client = storage.Client(credentials=credentials)
     #client = storage.Client('possible-aspect-369317')
+
     bucket = client.get_bucket(bucket_name)
     if file_name != 'flickr30k_captions.csv' :
         blob = bucket.get_blob(file_name)

@@ -53,3 +53,16 @@ pypi_test:
 
 pypi:
 	@twine upload dist/* -u $(PYPI_USERNAME)
+
+# ----------------------------------
+#         HEROKU COMMANDS
+# ----------------------------------
+
+streamlit:
+	-@streamlit run spot_photo/streamlit/app.py
+
+# ----------------------------------
+#         API UVICORN COMMANDS
+# ----------------------------------
+run_api:
+	uvicorn 'spot_photo.api.fast':app --reload
