@@ -2,8 +2,9 @@
 from sentence_transformers import SentenceTransformer, util
 from spot_photo.ml_logic.data import load_data
 from PIL import Image
+from io import BytesIO
 
-#from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor, AutoTokenizer
+from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor, AutoTokenizer
 
 
 
@@ -11,12 +12,33 @@ from PIL import Image
 
 # DEF A FUNCTION TO LOAD CAPTIONING MODEL
 
-#def load_captionning_model():
-    # model = VisionEncoderDecoderModel.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
-    # feature_extractor = ViTFeatureExtractor.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
-    # tokenizer = AutoTokenizer.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+# def load_captionning_model():
+#     model = VisionEncoderDecoderModel.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+#     feature_extractor = ViTFeatureExtractor.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
+#     tokenizer = AutoTokenizer.from_pretrained("nlpconnect/vit-gpt2-image-captioning")
 
-    # return X_pred #CSV WITH CAPTIONING
+#     max_length = 20 #Nombre de mots dans la caption
+#     num_beams = 4 #on ne sait pas ce qu'on sait
+#     gen_kwargs = {"max_length": max_length, "num_beams": num_beams}
+#     def predict_step(image_paths):
+#         images = []
+#         for image_path in image_paths:
+#             i_image = Image.open(BytesIO(image_path.download_as_bytes()))
+#             if i_image.mode != "RGB":
+#                 i_image = i_image.convert(mode="RGB")
+
+#             images.append(i_image)
+
+#         pixel_values = feature_extractor(images=images, return_tensors="pt").pixel_values
+#         #pixel_values = pixel_values.to(device)
+
+#         output_ids = model.generate(pixel_values, **gen_kwargs) #matrice des captions encodées (?)
+
+#         preds = tokenizer.batch_decode(output_ids, skip_special_tokens=True) #decode les matrices en mots
+#         preds = [(image.name, pred.strip()) for image, pred in zip(image_paths,preds)] #list de tuple ( nom image,  caption)
+#         #preds = [ pred.strip() for pred in preds]  #list de chaque caption
+#         return preds
+#      return X_pred #CSV WITH CAPTIONING
 
 
 # DEF A FUNCTION TO LOAD SENTENCE SIMILARITY MODEL
@@ -34,7 +56,7 @@ def embedding_query(model, query):
     return query_embedding
 
 def compute_similarity( query_embedding, X_pred_embeddings, k=2): #images_embedding
-
+    print(query_embedding.shape)
     hits = util.semantic_search(query_embedding, X_pred_embeddings, top_k=k)
     hits_sorted = sorted(hits[0], key = lambda ele: ele['score'], reverse=True)
 
