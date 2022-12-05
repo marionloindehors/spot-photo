@@ -7,12 +7,15 @@ from PIL import Image
 from io import BytesIO
 
 
-
 query = st.text_input('Which photo are you looking for ?', 'Please enter your description')
 
 #st.form_submit_button('Search')
 
-params = dict(query= query)
+results = st.image('./header.png')
+
+
+params = dict(query=query)
+
 
 spot_photo_api_url = 'http://127.0.0.1:8000/recherche'
 response = requests.get(spot_photo_api_url, params=params).json()
@@ -29,7 +32,6 @@ client = storage.Client(credentials=credentials)
 bucket_name = 'bucket_image_flickr30k'
 
 bucket = client.get_bucket(bucket_name)
-
 
 
 blob_l =[]

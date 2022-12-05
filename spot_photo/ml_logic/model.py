@@ -2,6 +2,7 @@
 from sentence_transformers import SentenceTransformer, util
 from spot_photo.ml_logic.data import load_data
 from PIL import Image
+
 #from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor, AutoTokenizer
 
 
@@ -29,29 +30,29 @@ def load_sentence_similarity_model(model_name='all-mpnet-base-v2'):
 
 def embedding_query(model, query):
     # Embedding query
-    query_embedding = model.encode(query)
+    query_embedding = model.encode(query) #/!\ clip vit return matrice shape 512!!
     return query_embedding
 
-def compute_similarity(query_embedding, X_pred_embeddings, k=5):
-    hits = util.semantic_search(query_embedding, X_pred_embeddings, top_k=k)
-    hits_sorted = sorted(hits[0], key = lambda ele: ele['score'], reverse=True)
+def compute_similarity(model, query_embedding, X_pred_embeddings, k=2): #images_embedding
 
-    # Create list of images result index
-    list_of_index = []
-    for hit in hits_sorted :
-        list_of_index.append(hit['corpus_id'])
-    print (list_of_index)
-    data = load_data()
-    # Create list of images name
-    list_of_image_name = []
-    for i in list_of_index :
-        print(data['image_name'][55])
-        image_na = data['image_name'][i*5]
-        print(image_na)
-        list_of_image_name.append(image_na)
+    if model == 'all-mpnet-base-v2':
+        hits = util.semantic_search(query_embedding, X_pred_embeddings, top_k=k)
+        hits_sorted = sorted(hits[0], key = lambda ele: ele['score'], reverse=True)
 
-    return list_of_image_name
+        # Create list of images result index
+        list_of_index = []
+        for hit in hits_sorted :
+            list_of_index.append(hit['corpus_id'])
+        data = load_data()
+        # Create list of images name
+        list_of_image_name = []
+        for i in list_of_index :
+            image_na = data['image_name'][i*5]
+            list_of_image_name.append(image_na)
+        return list_of_image_name
 
-
-
-# DEF A FUNCTION TO LOAD TEXT TO IMAGE MODEL * IF BETTER
+    if model == 'clip-ViT-B-32':
+         list_cos_scores = []
+         score = util.cos_sim(query_embedding, X_pred_embeddings) #X_pred_embedding Encoded features from images
+         list_cos_scores.append(score)
+         return max(list_cos_scores) #Tensor
