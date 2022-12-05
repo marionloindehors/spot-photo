@@ -10,7 +10,7 @@ print('✅ X_pred loaded')
 #corpus_X_pred = make_corpus(X_pred)
 #print('✅ list corpus_X_pred done')
 
-model = load_sentence_similarity_model(model_name='clip-ViT-B-32')
+model = load_sentence_similarity_model(model_name='all-mpnet-base-v2')
 print('✅ model loaded')
 
 #X_pred_embeddings = encode_X_pred(model, corpus_X_pred)

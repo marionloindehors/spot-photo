@@ -55,8 +55,9 @@ def embedding_query(model, query):
     query_embedding = model.encode(query) #/!\ clip vit return matrice shape 512!!
     return query_embedding
 
-def compute_similarity( query_embedding, X_pred_embeddings, k=2): #images_embedding
-    print(query_embedding.shape)
+
+def compute_similarity(query_embedding, X_pred_embeddings, k=2): #images_embedding
+
     hits = util.semantic_search(query_embedding, X_pred_embeddings, top_k=k)
     hits_sorted = sorted(hits[0], key = lambda ele: ele['score'], reverse=True)
 
