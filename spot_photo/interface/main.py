@@ -1,6 +1,6 @@
-from ml_logic.data import load_X_pred, make_corpus, encode_X_pred
-from ml_logic.model import load_sentence_similarity_model, embedding_query, compute_similarity
-from ml_logic.results import show_results
+from spot_photo.ml_logic.data import load_X_pred, make_corpus, encode_X_pred
+from spot_photo.ml_logic.model import load_sentence_similarity_model, embedding_query, compute_similarity
+from spot_photo.ml_logic.results import show_results
 
 X_pred = load_X_pred(bucket_name = 'bucket_image_flickr30k',
                 file_name = 'X_pred_caption_0_to_1000.csv')

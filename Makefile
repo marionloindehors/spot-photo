@@ -59,7 +59,7 @@ pypi:
 # ----------------------------------
 
 streamlit:
-	-@streamlit run app.py
+	-@streamlit run spot_photo/streamlit/app.py
 
 # ----------------------------------
 #         API UVICORN COMMANDS

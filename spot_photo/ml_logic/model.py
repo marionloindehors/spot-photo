@@ -1,11 +1,6 @@
-<<<<<<< HEAD
-# DEF A FUNCTION TO LOAD CAPTIONING MODEL
-
-# DEF A FUNCTION TO LOAD SENTENCE SIMILARITY MODEL
-=======
 
 from sentence_transformers import SentenceTransformer, util
-from ml_logic.data import load_data
+from spot_photo.ml_logic.data import load_data
 from PIL import Image
 #from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor, AutoTokenizer
 
@@ -51,13 +46,12 @@ def compute_similarity(query_embedding, X_pred_embeddings, k=5):
     list_of_image_name = []
     for i in list_of_index :
         print(data['image_name'][55])
-        image_na = data['image_name'][i]
+        image_na = data['image_name'][i*5]
         print(image_na)
         list_of_image_name.append(image_na)
 
     return list_of_image_name
 
 
->>>>>>> 92c31f070f67081df7424ab68ee2af25d2543d47
 
 # DEF A FUNCTION TO LOAD TEXT TO IMAGE MODEL * IF BETTER
