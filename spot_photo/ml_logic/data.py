@@ -2,6 +2,9 @@ from google.oauth2 import service_account
 from google.cloud import storage
 import numpy as np
 import pandas as pd
+import pickle
+import torch
+from io import BytesIO
 
 # DEF A FUNCTION TO LOAD X_pred_0_to_1000.CSV depuis bucket
 def load_X_pred(bucket_name = 'bucket_image_flickr30k',
@@ -60,3 +63,13 @@ def load_data(bucket_name = 'bucket_image_flickr30k',
 
 
 # DEF A FUNCTION TO LOAD OUR DATASET **
+
+def load_pickle (file_name='list_img_embed_results_flickr30k31121.pkl'):
+    blob = load_data(file_name = file_name)
+    images_embedding = pickle.load(BytesIO(blob.download_as_bytes()))
+    images_features = []
+    print(images_embedding[0][1].shape)
+    for n in images_embedding :
+        images_features.append(torch.from_numpy((n[1]).reshape(512,)))
+    print(images_features[0].shape)
+    return images_features
