@@ -42,10 +42,10 @@ def root():
 
 
 @app.get('/recherche')
-def recherche(query : object):
+def recherche(query, k):
     model = app.state.model
     query_embedding = embedding_query(model, query)
-    images_names = compute_similarity(query_embedding, app.state.X_pred_embeddings)
+    images_names = compute_similarity(query_embedding, app.state.X_pred_embeddings, k=k)
     result = {}
     for i, image in enumerate(images_names) :
         result[image]=f'resultat n° {i+1}'

@@ -11,17 +11,16 @@ query = st.text_input('Which photo are you looking for ?', 'Please enter your de
 
 #st.form_submit_button('Search')
 
-results = st.image('./header.png')
 
 
-params = dict(query=query)
+
+k = st.slider('number of pictures display', 1, 5, 3)
+params = dict(query=query, k=k)
 
 
 spot_photo_api_url = 'http://127.0.0.1:8000/recherche'
 response = requests.get(spot_photo_api_url, params=params).json()
-
-
-st.markdown(f'{response.keys()}')
+#st.markdown(f'{response.keys()}')
 
 
 credentials = service_account.Credentials.from_service_account_file(

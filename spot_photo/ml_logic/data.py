@@ -15,10 +15,7 @@ def load_X_pred(bucket_name = 'bucket_image_flickr30k',
     bucket = client.get_bucket(bucket_name)
     blob = bucket.blob(file_name)
 
-    blob.download_to_filename(file_name)
-    #Sinon je le ramène en local download
-
-    #url = f'gs://{bucket_name}/{file_name}'
+    blob.download_to_filename(file_name)   #Sinon je le ramène en local download
 
     X_pred = pd.read_csv(file_name, header=None)
 

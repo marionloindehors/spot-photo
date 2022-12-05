@@ -33,26 +33,25 @@ def embedding_query(model, query):
     query_embedding = model.encode(query) #/!\ clip vit return matrice shape 512!!
     return query_embedding
 
-def compute_similarity(model, query_embedding, X_pred_embeddings, k=2): #images_embedding
+def compute_similarity( query_embedding, X_pred_embeddings, k=2): #images_embedding
 
-    if model == 'all-mpnet-base-v2':
-        hits = util.semantic_search(query_embedding, X_pred_embeddings, top_k=k)
-        hits_sorted = sorted(hits[0], key = lambda ele: ele['score'], reverse=True)
+    hits = util.semantic_search(query_embedding, X_pred_embeddings, top_k=k)
+    hits_sorted = sorted(hits[0], key = lambda ele: ele['score'], reverse=True)
 
-        # Create list of images result index
-        list_of_index = []
-        for hit in hits_sorted :
-            list_of_index.append(hit['corpus_id'])
-        data = load_data()
-        # Create list of images name
-        list_of_image_name = []
-        for i in list_of_index :
-            image_na = data['image_name'][i*5]
-            list_of_image_name.append(image_na)
-        return list_of_image_name
+    # Create list of images result index
+    list_of_index = []
+    for hit in hits_sorted :
+        list_of_index.append(hit['corpus_id'])
+    data = load_data()
+    # Create list of images name
+    list_of_image_name = []
+    for i in list_of_index :
+        image_na = data['image_name'][i*5]
+        list_of_image_name.append(image_na)
+    return list_of_image_name
 
-    if model == 'clip-ViT-B-32':
-         list_cos_scores = []
-         score = util.cos_sim(query_embedding, X_pred_embeddings) #X_pred_embedding Encoded features from images
-         list_cos_scores.append(score)
-         return max(list_cos_scores) #Tensor
+#    if model == SentenceTransformer('clip-ViT-B-32'):
+#         list_cos_scores = []
+#         score = util.cos_sim(query_embedding, X_pred_embeddings) #X_pred_embedding Encoded features from images
+#         list_cos_scores.append(score)
+#         return max(list_cos_scores) #Tensor
