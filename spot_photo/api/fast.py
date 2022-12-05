@@ -2,7 +2,11 @@
 import pandas as pd
 
 #on importe nos model
+<<<<<<< HEAD
 #from spot_photo.model import load_model ,compute_similarity
+=======
+from spot-photo....  import #load_model
+>>>>>>> 92c31f070f67081df7424ab68ee2af25d2543d47
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -22,6 +26,7 @@ app.add_middleware(
 # The trick is to load the model in memory when the uvicorn server starts
 # Then to store the model in an `app.state.model` global variable accessible across all routes!
 # This will prove very useful for demo days
+<<<<<<< HEAD
 #app.state.model = load_model()
 
 
@@ -40,3 +45,12 @@ def root():
 #    images_names = compute_similarity(query_embedding)
 
 #    return images_names
+=======
+app.state.model = #load_model()
+
+@app.get('#Function')
+#def function similarity ...
+#return show images
+
+@app.get('/')
+>>>>>>> 92c31f070f67081df7424ab68ee2af25d2543d47
