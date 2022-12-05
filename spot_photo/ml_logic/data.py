@@ -39,9 +39,6 @@ def encode_X_pred(model, corpus_X_pred):
 def load_data(bucket_name = 'bucket_image_flickr30k',
                 file_name = 'flickr30k_captions.csv'):
 
-
-
-
     credentials = service_account.Credentials.from_service_account_file(
     'possible-aspect-369317-239ac2560a56.json')
 
@@ -61,7 +58,6 @@ def load_data(bucket_name = 'bucket_image_flickr30k',
     #url = f'gs://{bucket_name}/{file_name}'
 
     data = pd.read_csv(file_name, on_bad_lines='skip', delimiter='|')
-    print(data['image_name'][55])
     return data
 
 
