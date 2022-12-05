@@ -25,6 +25,7 @@ mlflow
 s3fs
 
 fastapi         # API framework
+streamlit
 pytz            # time zone management
 uvicorn         # web server
 
