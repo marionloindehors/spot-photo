@@ -35,7 +35,7 @@ def embedding_query(model, query):
 
 def compute_similarity(model, query_embedding, X_pred_embeddings, k=2): #images_embedding
 
-    if model == 'all-mpnet-base-v2'
+    if model == 'all-mpnet-base-v2':
         hits = util.semantic_search(query_embedding, X_pred_embeddings, top_k=k)
         hits_sorted = sorted(hits[0], key = lambda ele: ele['score'], reverse=True)
 
