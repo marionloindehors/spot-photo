@@ -7,7 +7,7 @@ from PIL import Image
 from io import BytesIO
 
 st.title(" Welcome to Spot Photo 🔍 ")
-st.subheader("A wonderful app to look after your f**cking holidays pictures during dark and rainy days")
+st.subheader("A wonderful app to find your pictures and start to tell your stories")
 
 
 model_choice = st.selectbox('Please select a model', ('all-mpnet-base-v2', 'clip-ViT-B-32'))
