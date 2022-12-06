@@ -13,17 +13,18 @@ st.subheader("A wonderful app to find your pictures and start to tell your stori
 model_choice = st.selectbox('Please select a model', ('all-mpnet-base-v2', 'clip-ViT-B-32'))
 
 
-query = st.text_input('Which photo are you looking for ?', 'Please enter your description')
+query = st.text_input('Which photo are you looking for ?')
 
 
 k = st.slider('Number of pictures to display', 1, 5, 3)
 
 
-if query is not None:
+if query is not None and query != '':
     params = dict(model_choice=model_choice, query=query, k=k, )
 
 
-    spot_photo_api_url = 'http://127.0.0.1:8000/recherche'
+    spot_photo_api_url = 'http://localhost:8000/recherche'
+    #http://127.0.0.1:8000/recherche
     response = requests.get(spot_photo_api_url, params=params)
 
     if response.ok:
