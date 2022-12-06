@@ -1,4 +1,7 @@
-from sentence-transformers import SentenceTransformer, util
+from sentence_transformers import SentenceTransformer, util
+from google.oauth2 import service_account
+from google.cloud import storage
+import pickle
 from spot_photo.ml_logic.data import load_data
 from PIL import Image
 from io import BytesIO
@@ -47,7 +50,13 @@ def predict_step(model, feature_extractor, tokenizer, list_of_blob):
         (image.name, pred.strip()) for image, pred in zip(list_of_blob, preds)
     ]  # list de tuple ( nom image,  caption)
     # preds = [ pred.strip() for pred in preds]  #list de chaque caption
-    return preds  # list de tuple ( nom image,  caption)
+
+    #CREATE PICKLE FROM TUPLE CAPTIONS en local
+
+    with open(f"captions_our_dataset_100.pkl", "wb") as f:
+       pickle_captions = pickle.dump(preds, f)
+
+    return pickle_captions
 
 
 # ------------------------------------------------

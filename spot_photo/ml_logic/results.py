@@ -3,6 +3,8 @@ from PIL import Image
 from io import BytesIO
 from spot_photo.ml_logic.data import load_data
 
+
+
 def show_results(list_of_image_name):
     # Create list of blobs
     blob_l =[]
