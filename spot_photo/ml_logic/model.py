@@ -53,7 +53,7 @@ def predict_step(model, feature_extractor, tokenizer, list_of_blob):
 
     #CREATE PICKLE FROM TUPLE CAPTIONS en local
 
-    with open(f"captions_our_dataset_100.pkl", "wb") as f:
+    with open(f"captions_our_dataset_200.pkl", "wb") as f:
        pickle_captions = pickle.dump(preds, f)
 
     return pickle_captions

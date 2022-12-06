@@ -34,11 +34,11 @@ def caption_new_images(folder = 'our_full_dataset/'):
 
     bucket = client.get_bucket(bucket_name)
     list_of_blob = list(client.list_blobs(bucket_name, prefix=folder))
-    print(list_of_blob[1:100])
+    print(list_of_blob[99:200])
     model, feature_extractor, tokenizer = load_captionning_model()
     print('✅ model loaded')
-    pred = predict_step(model, feature_extractor, tokenizer, list_of_blob[1:100])
-
+    pred = predict_step(model, feature_extractor, tokenizer, list_of_blob[99:200])
+    print('✅ pickle created')
     return pred
 
 print(caption_new_images())
