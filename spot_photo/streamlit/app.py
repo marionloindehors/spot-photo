@@ -29,9 +29,9 @@ if query is not None:
     if response.ok:
         #st.markdown(f'{response.json()}')
 
-        credentials = service_account.Credentials.from_service_account_file('possible-aspect-369317-b19475afaf02.json')
+        #credentials = service_account.Credentials.from_service_account_file('')
 
-        client = storage.Client(credentials=credentials)
+        client = storage.Client()
         #client = storage.Client('possible-aspect-369317')
         bucket_name = 'bucket_image_flickr30k'
 
