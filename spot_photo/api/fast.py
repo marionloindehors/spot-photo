@@ -3,7 +3,7 @@ import pandas as pd
 
 #on importe nos model
 from spot_photo.ml_logic.model import load_sentence_similarity_model, compute_similarity, embedding_query
-from spot_photo.ml_logic.data import load_X_pred, make_corpus, encode_X_pred
+from spot_photo.ml_logic.data import load_X_pred, make_corpus, encode_X_pred, load_pickle
 
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
@@ -24,14 +24,16 @@ app.add_middleware(
 # Then to store the model in an `app.state.model` global variable accessible across all routes!
 # This will prove very useful for demo days
 
-app.state.model = load_sentence_similarity_model()
+app.state.model_1 = load_sentence_similarity_model(model_name='all-mpnet-base-v2')
+app.state.model_2 = load_sentence_similarity_model(model_name='clip-ViT-B-32')
 
 app.state.X_pred = load_X_pred(bucket_name = 'bucket_image_flickr30k',
                file_name = 'X_pred_caption_0_to_1000.csv')
 
 app.state.corpus_X_pred = make_corpus(app.state.X_pred)
 
-app.state.X_pred_embeddings = encode_X_pred(app.state.model, app.state.corpus_X_pred)
+app.state.X_pred_embeddings_1 = encode_X_pred(app.state.model_1, app.state.corpus_X_pred)
+app.state.X_pred_embeddings_2 = load_pickle(file_name='list_img_embed_results_flickr30k31121.pkl')
 
 @app.get('/')
 def root():
@@ -42,11 +44,20 @@ def root():
 
 
 @app.get('/recherche')
-def recherche(query: str, k: int):
-    model = app.state.model
-    query_embedding = embedding_query(model, query)
-    images_names = compute_similarity(query_embedding, app.state.X_pred_embeddings, k=k)
-    result = {}
-    for i, image in enumerate(images_names) :
-        result[image]=f'resultat n° {i+1}'
-    return result
+def recherche(model_choice : str, query: str, k: int):
+    if model_choice == 'all-mpnet-base-v2':
+        model = app.state.model_1
+        query_embedding = embedding_query(model, query)
+        images_names = compute_similarity(query_embedding, app.state.X_pred_embeddings_1, k=k)
+        result = {}
+        for i, image in enumerate(images_names) :
+            result[image]=f'resultat n° {i+1}'
+        return result
+    if model_choice == 'clip-ViT-B-32':
+        model = app.state.model_2
+        query_embedding = embedding_query(model, query)
+        images_names = compute_similarity(query_embedding, app.state.X_pred_embeddings_2, k=k)
+        result = {}
+        for i, image in enumerate(images_names) :
+            result[image]=f'resultat n° {i+1}'
+        return result
