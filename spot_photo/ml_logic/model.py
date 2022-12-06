@@ -1,4 +1,4 @@
-from sentence_transformers import SentenceTransformer, util
+from sentence-transformers import SentenceTransformer, util
 from spot_photo.ml_logic.data import load_data
 from PIL import Image
 from io import BytesIO

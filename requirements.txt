@@ -10,6 +10,7 @@ pandas
 scikit-learn
 
 transformers
+sentence-transformers
 
 # tests/linter
 black
