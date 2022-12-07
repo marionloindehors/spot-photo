@@ -4,6 +4,7 @@ from spot_photo.ml_logic.model import load_sentence_similarity_model, embedding_
 from spot_photo.ml_logic.results import show_results
 from google.oauth2 import service_account
 from google.cloud import storage
+import pickle
 
 # X_pred = load_X_pred(bucket_name = 'bucket_image_flickr30k',
 #                 file_name = 'X_pred_caption_0_to_1000.csv')
@@ -34,11 +35,28 @@ def caption_new_images(folder = 'our_full_dataset/'):
 
     bucket = client.get_bucket(bucket_name)
     list_of_blob = list(client.list_blobs(bucket_name, prefix=folder))
-    print(list_of_blob[99:200])
+    #print(list_of_blob[99:200])
     model, feature_extractor, tokenizer = load_captionning_model()
     print('✅ model loaded')
-    pred = predict_step(model, feature_extractor, tokenizer, list_of_blob[99:200])
-    print('✅ pickle created')
-    return pred
+    start = 4639  # début des cations à faire
+    end = 9079 # fin des captions à faire
+    step = 10 # nb de photo à prendre pour chaque step
+    nb_step = (end - start) // step  #
+    rest = (end - start) % nb_step  #
+    captions = []
+    for n in range (nb_step):
+        pred = predict_step(model, feature_extractor, tokenizer, list_of_blob[start+(step*(n)):start+(step*(n+1))])
+        captions.extend(pred)
+        print(f'✅ predict effectué sur images {start+(step*(n))} à {start+(step*(n+1))}')
+        print(f"{len(captions)} captions effectuées")
+    if rest != 0 :
+        pred = predict_step(model, feature_extractor, tokenizer, list_of_blob[end-rest:])
+        captions.extend(pred)
+    print('✅ predict terminé')
+    with open(f"captions_our_dataset_{start}_{end}.pkl", "wb") as f:
+       pickle_captions = pickle.dump(captions, f)
 
-print(caption_new_images())
+    print('✅ pickle created')
+
+
+caption_new_images()
