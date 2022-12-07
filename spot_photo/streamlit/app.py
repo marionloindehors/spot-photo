@@ -23,7 +23,7 @@ if query is not None and query != '':
     params = dict(model_choice=model_choice, query=query, k=k, )
 
 
-    spot_photo_api_url = 'http://localhost:8000/recherche'
+    spot_photo_api_url = 'https://spotphoto-clzpjlq7na-ew.a.run.app/recherche'
     #http://127.0.0.1:8000/recherche
     response = requests.get(spot_photo_api_url, params=params)
 
@@ -40,9 +40,13 @@ if query is not None and query != '':
 
         blob_l =[]
         d = response.json()
+        #st.write(d)
         for image in d.keys() :
+            #st.write(image)
             file_name = f"flickr30k_images/{image}"
+            #st.write(file_name)
             blob = bucket.get_blob(file_name)
+            #st.write(blob)
             blob_l.append(blob)
         rows = len(d.keys())
         for x in range(rows):
