@@ -40,19 +40,20 @@ def caption_new_images(folder = 'our_full_dataset/'):
     print('✅ model loaded')
     start = 4639  # début des cations à faire
     end = 9079 # fin des captions à faire
-    step = 10
-    nb_step = (end - start) // step  #  = 44   il faut 44 steps de 100 captions
-    rest = (end - start) % nb_step  # = 40   il restera 40 captions a faire
+    step = 10 # nb de photo à prendre pour chaque step
+    nb_step = (end - start) // step  #
+    rest = (end - start) % nb_step  #
     captions = []
     for n in range (nb_step):
         pred = predict_step(model, feature_extractor, tokenizer, list_of_blob[start+(step*(n)):start+(step*(n+1))])
         captions.extend(pred)
         print(f'✅ predict effectué sur images {start+(step*(n))} à {start+(step*(n+1))}')
         print(f"{len(captions)} captions effectuées")
-    pred = predict_step(model, feature_extractor, tokenizer, list_of_blob[end-rest:])
-    captions.extend(pred)
+    if rest != 0 :
+        pred = predict_step(model, feature_extractor, tokenizer, list_of_blob[end-rest:])
+        captions.extend(pred)
     print('✅ predict terminé')
-    with open(f"captions_our_dataset_4639_9079.pkl", "wb") as f:
+    with open(f"captions_our_dataset_{start}_{end}.pkl", "wb") as f:
        pickle_captions = pickle.dump(captions, f)
 
     print('✅ pickle created')
