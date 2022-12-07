@@ -25,6 +25,8 @@ google-cloud-storage
 mlflow
 s3fs
 
+python-multipart
+
 fastapi         # API framework
 streamlit
 pytz            # time zone management
