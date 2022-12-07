@@ -5,6 +5,7 @@ import pickle
 from spot_photo.ml_logic.data import load_data
 from PIL import Image
 from io import BytesIO
+import torch
 
 from transformers import VisionEncoderDecoderModel, ViTFeatureExtractor, AutoTokenizer
 
@@ -23,10 +24,14 @@ def load_captionning_model():
     return model, feature_extractor, tokenizer
 
 
+
 def predict_step(model, feature_extractor, tokenizer, list_of_blob):
     max_length = 20  # Nombre de mots dans la caption
     num_beams = 4  # on ne sait pas ce qu'on sait
     gen_kwargs = {"max_length": max_length, "num_beams": num_beams}
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(device)
+    model.to(device)
 
     images = []
     for blob in list_of_blob:
@@ -37,11 +42,13 @@ def predict_step(model, feature_extractor, tokenizer, list_of_blob):
         images.append(i_image)
     print(len(images))
     pixel_values = feature_extractor(images=images, return_tensors="pt").pixel_values
-    # pixel_values = pixel_values.to(device)
+    pixel_values = pixel_values.to(device)
+    print('✅ features extraitent')
 
     output_ids = model.generate(
         pixel_values, **gen_kwargs
     )  # matrice des captions encodées (?)
+    print('✅ matrice des captions encodées')
 
     preds = tokenizer.batch_decode(
         output_ids, skip_special_tokens=True
@@ -52,11 +59,8 @@ def predict_step(model, feature_extractor, tokenizer, list_of_blob):
     # preds = [ pred.strip() for pred in preds]  #list de chaque caption
 
     #CREATE PICKLE FROM TUPLE CAPTIONS en local
-
-    with open(f"captions_our_dataset_200.pkl", "wb") as f:
-       pickle_captions = pickle.dump(preds, f)
-
-    return pickle_captions
+    torch.cuda.empty_cache()
+    return preds
 
 
 # ------------------------------------------------
