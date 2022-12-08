@@ -25,8 +25,8 @@ def load_X_pred(
 
 def make_corpus(X_pred):
     corpus_X_pred = []
-    for sentence in X_pred[2]:
-        corpus_X_pred.append(sentence)
+    for sentence in X_pred:
+        corpus_X_pred.append(sentence[1])
     return corpus_X_pred
 
 
@@ -62,9 +62,12 @@ def load_data(bucket_name="bucket_image_flickr30k", file_name="flickr30k_caption
 
 def load_pickle(file_name="list_img_embed_results_flickr30k31121.pkl"):
     blob = load_data(file_name=file_name)
-    images_embedding = pickle.load(BytesIO(blob.download_as_bytes()))
+    images_embedding = pickle.load(BytesIO(blob.download_as_bytes()))  # on récupère la liste de tupple, (nom_image, np_array)
+    return images_embedding
+
+def preprocess_img_emmb (images_embedding):
+    # on ne veut que les images features en sous forme de tensor (512, )
     images_features = []
-    print(images_embedding[0][1].shape)
     for n in images_embedding:
         images_features.append(
             torch.from_numpy(
@@ -73,5 +76,29 @@ def load_pickle(file_name="list_img_embed_results_flickr30k31121.pkl"):
                 )
             )
         )
-    print(images_features[0].shape)
-    return images_features
+    return images_features #liste de tensor
+
+def extend_pickle(pickle_name, new_list):
+    #  1 - on prend un pickle existant sur le bucket grace à la function load_data
+    #  2 - on ouvre le pickle pour retrouver une liste
+    #  3 - on .extend() la liste
+    #  4 - on recrée un nouveau pickle
+    #  5 - on remet le pickle sur le bucket grace à la function upload_file
+
+    blob = load_data(file_name=pickle_name)    # 1
+    list_file = pickle.load(BytesIO(blob.download_as_bytes()))     # 2
+    list_file.extend(new_list)    # 3
+    with open(pickle_name, "wb") as f:
+       pickle.dump(list_file, f)    # 4
+    upload_file(pickle_name, path_to_file= pickle_name) # 5
+
+
+def upload_file(file_name, path_to_file, bucket_name="bucket_image_flickr30k"):
+
+    client = storage.Client()
+    #client = storage.Client.from_service_account_json('possible-aspect-369317-4356a1067d8c.json')
+    bucket_name = bucket_name
+    bucket = client.get_bucket(bucket_name)
+
+    blob = bucket.blob(file_name)
+    blob.upload_from_filename(path_to_file)

@@ -30,7 +30,7 @@ def predict_step(model, feature_extractor, tokenizer, list_of_blob):
     num_beams = 4  # on ne sait pas ce qu'on sait
     gen_kwargs = {"max_length": max_length, "num_beams": num_beams}
     device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
-    print(device)
+    #print(device)
     model.to(device)
 
     images = []
@@ -40,10 +40,9 @@ def predict_step(model, feature_extractor, tokenizer, list_of_blob):
             i_image = i_image.convert(mode="RGB")
 
         images.append(i_image)
-    print(len(images))
     pixel_values = feature_extractor(images=images, return_tensors="pt").pixel_values
     pixel_values = pixel_values.to(device)
-    print('✅ features extraitent')
+    print('✅ features extraites')
 
     output_ids = model.generate(
         pixel_values, **gen_kwargs
@@ -96,17 +95,12 @@ def compute_similarity(query_embedding, X_pred_embeddings, k=2):  # images_embed
     list_of_index = []
     for hit in hits_sorted:
         list_of_index.append(hit["corpus_id"])
-    data = load_data()
+    return list_of_index
+
     # Create list of images name
+def list_of_image_path (list_of_index, data):
     list_of_image_name = []
     for i in list_of_index:
-        image_na = data["image_name"][i * 5]
+        image_na = data[i][0]
         list_of_image_name.append(image_na)
     return list_of_image_name
-
-
-#    if model == SentenceTransformer('clip-ViT-B-32'):
-#         list_cos_scores = []
-#         score = util.cos_sim(query_embedding, X_pred_embeddings) #X_pred_embedding Encoded features from images
-#         list_cos_scores.append(score)
-#         return max(list_cos_scores) #Tensor
