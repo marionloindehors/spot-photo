@@ -40,10 +40,9 @@ if query is not None and query != '':
 
         blob_l =[]
         d = response.json()
-        for image in d.keys() :
-            file_name = f"flickr30k_images/{image}"
-            blob = bucket.get_blob(file_name)
-            blob_l.append(blob)
+        for image in d.keys() :                 # -----------------------------------------
+            blob = bucket.get_blob(image)    # A CHANGER DANS LE REPO SPOTPHOTO_STREAMLIT   APP
+            blob_l.append(blob)             # -------------------------------------------------
         rows = len(d.keys())
         for x in range(rows):
             blob_n = blob_l[x]
