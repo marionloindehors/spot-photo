@@ -1,0 +1,10 @@
+numpy
+pandas
+transformers
+sentence-transformers
+gcsfs
+google-cloud-storage
+s3fs
+python-multipart
+fastapi
+uvicorn

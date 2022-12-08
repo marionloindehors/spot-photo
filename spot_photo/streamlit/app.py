@@ -23,7 +23,7 @@ if query is not None and query != '':
     params = dict(model_choice=model_choice, query=query, k=k, )
 
 
-    spot_photo_api_url = 'http://localhost:8000/recherche'
+    spot_photo_api_url = 'https://spotphoto-clzpjlq7na-ew.a.run.app/recherche'
     #http://127.0.0.1:8000/recherche
     response = requests.get(spot_photo_api_url, params=params)
 
@@ -40,9 +40,11 @@ if query is not None and query != '':
 
         blob_l =[]
         d = response.json()
+
         for image in d.keys() :                 # -----------------------------------------
             blob = bucket.get_blob(image)    # A CHANGER DANS LE REPO SPOTPHOTO_STREAMLIT   APP
             blob_l.append(blob)             # -------------------------------------------------
+
         rows = len(d.keys())
         for x in range(rows):
             blob_n = blob_l[x]
