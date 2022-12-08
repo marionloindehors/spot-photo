@@ -23,7 +23,8 @@ if query is not None and query != '':
     params = dict(model_choice=model_choice, query=query, k=k, )
 
 
-    spot_photo_api_url = 'https://spotphoto-clzpjlq7na-ew.a.run.app/recherche'
+    spot_photo_api_url = 'http://127.0.0.1:8000/recherche'
+    #'https://spotphoto-clzpjlq7na-ew.a.run.app/recherche'
     #http://127.0.0.1:8000/recherche
     response = requests.get(spot_photo_api_url, params=params)
 

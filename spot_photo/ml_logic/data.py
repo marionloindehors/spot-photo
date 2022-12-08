@@ -31,7 +31,7 @@ def make_corpus(X_pred):
 
 
 def encode_X_pred(model, corpus_X_pred):
-    X_pred_embeddings = model.encode(corpus_X_pred, convert_to_tensor=True)
+    X_pred_embeddings = model.encode(corpus_X_pred, convert_to_tensor=False)
     return X_pred_embeddings
 
 
@@ -65,32 +65,45 @@ def load_pickle(file_name="list_img_embed_results_flickr30k31121.pkl"):
     images_embedding = pickle.load(BytesIO(blob.download_as_bytes()))  # on récupère la liste de tupple, (nom_image, np_array)
     return images_embedding
 
+def preprocess_tensor (images_embedding) :
+    images_features = []
+    for n in images_embedding:
+        images_features.append(
+            torch.from_numpy(n)
+            )
+    return images_features #liste de tensor
+
+
 def preprocess_img_emmb (images_embedding):
     # on ne veut que les images features en sous forme de tensor (512, )
     images_features = []
     for n in images_embedding:
         images_features.append(
             torch.from_numpy(
-                (n[1]).reshape(
+                (n).reshape(
                     512,
                 )
             )
         )
     return images_features #liste de tensor
 
-def extend_pickle(pickle_name, new_list):
+def extend_pickle(pickle_name_1, pickle_name_2):
     #  1 - on prend un pickle existant sur le bucket grace à la function load_data
-    #  2 - on ouvre le pickle pour retrouver une liste
-    #  3 - on .extend() la liste
+    #  2 - on ouvre le pickle pour retrouver une liste 1
+    #  1 - on prend le 2 em pickle existant  grace à la function load_data
+    #  2 - on ouvre le pickle pour retrouver une liste 2
+    #  3 - on .extend() la liste 1 avec la liste 2
     #  4 - on recrée un nouveau pickle
     #  5 - on remet le pickle sur le bucket grace à la function upload_file
 
-    blob = load_data(file_name=pickle_name)    # 1
-    list_file = pickle.load(BytesIO(blob.download_as_bytes()))     # 2
-    list_file.extend(new_list)    # 3
-    with open(pickle_name, "wb") as f:
-       pickle.dump(list_file, f)    # 4
-    upload_file(pickle_name, path_to_file= pickle_name) # 5
+    blob_1 = load_data(file_name=pickle_name_1)    # 1
+    list_file_1 = pickle.load(BytesIO(blob_1.download_as_bytes()))     # 2
+    blob_2 = load_data(file_name=pickle_name_2)    # 1
+    list_file_2 = pickle.load(BytesIO(blob_2.download_as_bytes()))     # 2
+    list_file_1.extend(list_file_2)    # 3
+    with open(pickle_name_1, "wb") as f:
+       pickle.dump(list_file_1, f)    # 4
+    upload_file(pickle_name_1, path_to_file= pickle_name_1) # 5
 
 
 def upload_file(file_name, path_to_file, bucket_name="bucket_image_flickr30k"):
