@@ -1,4 +1,4 @@
-# Data Science project - Bootcamp Le Wagon #1035 
+# Deep Learning project - Bootcamp Le Wagon #1035 
 - Spot-photo
 - Description: Creation of a photo search engine application using several models of Deep Learning, image recognition and “natural language processing”. Building of an API, a Streamlit interface and deployment on the cloud (Docker, GCP).
 
