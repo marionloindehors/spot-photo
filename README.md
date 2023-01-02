@@ -3,7 +3,7 @@
 - Description: Creation of a photo search engine application using several models of Deep Learning, image recognition and “natural language processing”. Building of an API, a Streamlit interface and deployment on the cloud (Docker, GCP).
 
 # Details
-We used several pre-trained models to develop our image search tools and we compared different methods.
+We used several pre-trained models to develop our image search tool and we compared different methods.
 
 The first one consists in labeling our images, then calculating the similarity between our request and these labels, by encoding our texts.
 
